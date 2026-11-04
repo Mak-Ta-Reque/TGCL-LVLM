@@ -32,6 +32,7 @@ tables can be rebuilt without extracting concepts again.
 ## Installation
 
 ```bash
+git clone -b release https://github.com/Mak-Ta-Reque/TGCL-LVLM && cd TGCL-LVLM
 conda create -n tgcl python=3.10 && conda activate tgcl
 pip install -r requirements-lock.txt   # exact versions (torch 2.8.0, CUDA 12.8)
 pip install -e . --no-deps             # the tgcl package
@@ -244,4 +245,8 @@ tests/           unit and integration tests (CPU)
 
 ## License
 
-MIT, see `LICENSE`.
+The code and the released data (`abka03/TGCL-LVLM`) are under the MIT
+license, see `LICENSE`. The code builds on xl-vlms (MIT, © 2024 mshukor),
+whose notice is kept. The data holds no images; the COCO and ImageNet images
+it refers to remain under their own terms, and the hidden states come from
+Gemma-3n, whose use is governed by the Gemma Terms of Use.
