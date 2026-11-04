@@ -15,13 +15,14 @@ At test time every generated token is explained by its most similar concepts,
 each grounded in **words** (decoded from the concept direction) and **image
 segments** (the training segments that activate it most):
 
-![TGCL concept attribution on COCO-10](assets/tgcl_concept_attribution.png)
+![TGCL explanations on COCO-10](assets/tgcl_example_coco.png)
 
-*For each answer token of a test image: the concepts ranked by cosine
-similarity to the token's hidden state, their class, their words and their top
-training segments (Gemma-3n, COCO-10; `scripts/plot_explanations.py`). The
-matched class concept carries the token (cos 0.63–0.70); after symmetric
-alignment the other concepts are near-orthogonal to it.*
+*For each answer token of a test image: TGCL's concepts ranked by cosine
+similarity to the token's hidden state, their class, their words (decoded from
+the concept direction) and their four top training segments (Gemma-3n, TGCL
+with SAM segments, COCO-10; `scripts/plot_explanations.py`). The rank-1 concept
+is the image's class in all three examples (bench 0.78, truck 0.80, cup 0.72);
+ranks 2–3 are related classes at lower similarity.*
 
 The repository holds the pipeline, the three baselines run under the same
 protocol (CoX-LMM, CRAFT, MCD) and the evaluation. The extracted concepts of
@@ -178,39 +179,6 @@ pipelines (TGCL centred on its calibration mean, the baselines plainly).
 Test-set metrics are reported in four settings: MCQ (multiple choice with the
 image, the main one), image-only (open question), text-only (no image) and
 combined (yes/no question).
-
-## Results
-
-Gemma-3n, 3 seeds, semi-NMF; every decomposition and setting with standard
-deviations in `artifacts/tables/`.
-
-**Concept quality** (training images):
-
-| Method | ImageNet-1k Sparsity ↑ | Instability ↓ | Overlap ↓ | COCO-10 Sparsity ↑ | Instability ↓ | Overlap ↓ |
-|---|---|---|---|---|---|---|
-| CRAFT | 0.42 | 0.017 | 0.69 | 0.42 | 0.004 | 0.81 |
-| MCD | 0.42 | 0.021 | 0.70 | 0.42 | 0.001 | 0.78 |
-| CoX-LMM | 0.43 | 0.055 | 0.27 | 0.43 | 0.002 | 0.32 |
-| TGCL (SAM) | **0.60** | **0.000** | **0.01** | **0.61** | 0.004 | **0.01** |
-| TGCL (sliding window) | **0.60** | **0.000** | **0.01** | **0.61** | 0.004 | **0.01** |
-
-**Test images, MCQ setting:**
-
-| Method | ImageNet-1k Acc ↑ | F1 ↑ | Gap ↑ | CLIP ↑ | COCO-10 Acc ↑ | F1 ↑ | Gap ↑ | CLIP ↑ |
-|---|---|---|---|---|---|---|---|---|
-| CRAFT | 0.135 | 0.098 | −0.036 | 0.556 | 0.197 | 0.086 | −0.007 | 0.530 |
-| MCD | 0.018 | 0.006 | −0.026 | 0.518 | 0.085 | 0.017 | −0.010 | 0.510 |
-| CoX-LMM | 0.077 | 0.079 | 0.100 | 0.544 | 0.229 | 0.169 | −0.056 | 0.529 |
-| TGCL (SAM) | 0.917 | 0.902 | 0.797 | 0.616 | **0.750** | **0.749** | 0.741 | 0.579 |
-| TGCL (sliding window) | **0.934** | **0.924** | **0.811** | **0.667** | 0.747 | 0.747 | **0.760** | **0.604** |
-
-TGCL leads in the text-only and combined settings as well. In the image-only
-setting on COCO-10, CoX-LMM's gap is larger (0.61 vs 0.18–0.19) at an accuracy
-of 0.12: one concept along a direction all answer states share is matched to
-almost every image. TGCL's sparsity comes from noise removal (every bank is at
-Gini 0.42–0.45 as learned); ImageNet-1k's instability reflects only the
-decomposition (a fixed image list); COCO-10's text-only setting has 10 distinct
-inputs.
 
 ## Released data
 
