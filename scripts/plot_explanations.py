@@ -13,7 +13,7 @@ training segments with the highest concept activation).
     RUN=outputs/tgcl_sam_coco_seed1
     python scripts/plot_explanations.py \\
         --explanations $RUN/explanations/snmf/vlm_explanations.json \\
-        --classes bench,truck,cup --out assets/tgcl_example_coco.png
+        --classes bench,truck,cup --out outputs/tgcl_example_coco.png
 """
 
 import argparse

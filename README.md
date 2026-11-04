@@ -3,26 +3,19 @@
 TGCL explains the words a vision-language model (VLM) generates with concepts
 learned from the model's own answers. For every class it asks the VLM about
 image segments ("Classify the image as either *bench* or *No bench*"), records
-the hidden state of the class word in the answer, and factorizes these states
-into concept directions per class (semi-NMF). The per-class concepts are then
-combined into one bank in two steps:
+the hidden state of the class word in the answer, and decomposes these states
+into a few concept directions per class. At test time every generated word is
+explained by the concepts closest to its hidden state, each grounded in
+**words** (decoded from the concept direction) and **image segments** (the
+training segments that activate it most).
 
-1. **Symmetric alignment**: Löwdin orthogonalization, (C Cᵀ)^(−1/2) C, the
-   orthonormal bank closest to the learned concepts, independent of their order;
-2. **Noise removal**: every concept keeps its 50 % largest coordinates.
+![TGCL explanations: zebra, horse, tiger, rabbit](assets/example_zebra_horse_tiger_rabbit.jpg)
+![TGCL explanations: tiger, beaver, dog, horse](assets/example_tiger_beaver_dog_horse.jpg)
+![TGCL explanations: horsecart, bear, rabbit, hotdog](assets/example_horsecart_bear_rabbit_hotdog.jpg)
 
-At test time every generated token is explained by its most similar concepts,
-each grounded in **words** (decoded from the concept direction) and **image
-segments** (the training segments that activate it most):
-
-![TGCL explanations on COCO-10](assets/tgcl_example_coco.png)
-
-*For each answer token of a test image: TGCL's concepts ranked by cosine
-similarity to the token's hidden state, their class, their words (decoded from
-the concept direction) and their four top training segments (Gemma-3n, TGCL
-with SAM segments, COCO-10; `scripts/plot_explanations.py`). The rank-1 concept
-is the image's class in all three examples (bench 0.78, truck 0.80, cup 0.72);
-ranks 2–3 are related classes at lower similarity.*
+*The VLM names the main object in each cell of a 2×2 image grid. For every
+generated word, TGCL shows its two closest concepts: the similarity (bar), the
+concept's words and its top training segments.*
 
 The repository holds the pipeline, the three baselines run under the same
 protocol (CoX-LMM, CRAFT, MCD) and the evaluation. The extracted concepts of
@@ -97,8 +90,8 @@ python scripts/evaluate_banks.py run --out outputs/evaluation/imagenet1k --datas
 python scripts/evaluate_banks.py table --out outputs/evaluation/imagenet1k
 ```
 
-`build` post-processes TGCL's bank (symmetric alignment, noise removal) and
-re-grounds its words, so it loads Gemma-3n's output head. Acc / F1 and the
+`build` prepares TGCL's concepts as the method uses them and re-grounds their
+words, so it loads Gemma-3n's output head. Acc / F1 and the
 faithfulness curves need only the download and the model; CLIP/BERT and word
 alignment also read the training images of the grounding segments (see C for
 the data). On ImageNet-1k, faithfulness and CLIP/BERT use the first test image
@@ -146,7 +139,7 @@ holds the paper values, `.env.example` documents them):
 | 2. Segments: SAM masks without class prompt, or sliding windows | `tgcl/preprocessing/crops_to_json.py` | `inference/crops.json` |
 | 3. Layer selection by logit lens (off in the paper) | `tgcl/helpers/layer_selection.py` | |
 | 4. Features: the class word's hidden state in the answer per segment | `tgcl/save_features.py` | `features/` |
-| 5. Concepts: per-class decomposition, purity filter, combination (symmetric alignment, noise removal) | `tgcl/analyse_features.py`, `scripts/sparsify_concepts.py` | `concept/<method>/` |
+| 5. Concepts: per-class decomposition, purity filter, combined bank | `tgcl/analyse_features.py`, `scripts/sparsify_concepts.py` | `concept/<method>/` |
 | 6. Explanations: answers on the test images, concepts per answer token | `tgcl/inference/vlm_explainer_multibatch.py` | `explanations/<method>/` |
 | 7. Evaluation: concept insertion/deletion, CLIP/BERT, word alignment | `tgcl/evaluation/` | `eval/<method>/` |
 | 8. Plots | `tgcl/reporting/plot_concept_curves.py` | `eval/<method>/concept_curves.png` |
@@ -155,7 +148,7 @@ holds the paper values, `.env.example` documents them):
 
 | Method | Step-4 prompt | Segments | Feature | Concepts |
 |---|---|---|---|---|
-| **TGCL** | binary class prompt | SAM masks without class name, or sliding windows | class word in the answer | per class, semi-NMF; symmetric alignment + noise removal (keep 50 %) |
+| **TGCL** | binary class prompt | SAM masks without class name, or sliding windows | class word in the answer | per class, semi-NMF |
 | CoX-LMM (Parekh et al., 2024) | "What are the objects in the image?" | whole image | class word in the answer | pooled |
 | CRAFT (Fel et al., 2023) | none | sliding windows | last input token | pooled |
 | MCD (Grobrügge et al., 2025) | none | SAM masks, black background | last input token | pooled |
