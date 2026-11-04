@@ -1,0 +1,62 @@
+# The tgcl package (pip install -e .) and the code-style tools.
+# Code style: Google Python Style Guide (https://google.github.io/styleguide/pyguide.html),
+# formatted with pyink and isort (settings below).
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tgcl"
+version = "0.1.0"
+description = "Text-grounded concept learning (TGCL) for vision-language models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+include = ["tgcl*"]
+
+[tool.setuptools.package-data]
+tgcl = ["assets/*.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# tests also check the command-line scripts, which are not part of the package
+pythonpath = ["scripts"]
+
+[tool.pyink]
+line-length = 80
+pyink-indentation = 4
+pyink-use-majority-quotes = true
+target-version = ["py310"]
+extend-exclude = "^/(outputs|data|notebooks)/"
+
+[tool.isort]
+profile = "google"
+line_length = 80
+# wrap the way pyink does, so the two tools agree
+multi_line_output = 3
+include_trailing_comma = true
+use_parentheses = true
+ensure_newline_before_comments = true
+known_first_party = ["tgcl"]
+skip_glob = ["outputs/*", "data/*", "notebooks/*"]
+
+[tool.coverage.run]
+source = ["tgcl", "scripts", "preprocessing"]
+
+[tool.coverage.report]
+# Line coverage of the CPU test suite; raise it as tests are added, never lower.
+fail_under = 51
+skip_empty = true
+
+[tool.mypy]
+python_version = "3.10"
+files = ["tgcl"]
+ignore_missing_imports = true
+cache_dir = ".mypy_cache"

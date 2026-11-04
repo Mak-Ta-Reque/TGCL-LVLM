@@ -1,0 +1,169 @@
+{
+ "rows": [
+  {
+   "dataset": "COCO-10",
+   "method": "TGCL (SAM)",
+   "decomposition": "snmf",
+   "all_components": false,
+   "runs": [
+    "artifacts/concepts/coco10/tgcl_sam_seed1",
+    "artifacts/concepts/coco10/tgcl_sam_seed2",
+    "artifacts/concepts/coco10/tgcl_sam_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "TGCL (SAM)",
+   "decomposition": "sae2",
+   "all_components": false,
+   "runs": [
+    "artifacts/concepts/coco10/tgcl_sam_seed1",
+    "artifacts/concepts/coco10/tgcl_sam_seed2",
+    "artifacts/concepts/coco10/tgcl_sam_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "TGCL (SAM)",
+   "decomposition": "simple",
+   "all_components": false,
+   "runs": [
+    "artifacts/concepts/coco10/tgcl_sam_seed1",
+    "artifacts/concepts/coco10/tgcl_sam_seed2",
+    "artifacts/concepts/coco10/tgcl_sam_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "TGCL (sliding window)",
+   "decomposition": "snmf",
+   "all_components": false,
+   "runs": [
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed1",
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed2",
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "TGCL (sliding window)",
+   "decomposition": "sae2",
+   "all_components": false,
+   "runs": [
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed1",
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed2",
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "TGCL (sliding window)",
+   "decomposition": "simple",
+   "all_components": false,
+   "runs": [
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed1",
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed2",
+    "artifacts/concepts/coco10/tgcl_sliding_window_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "CRAFT",
+   "decomposition": "snmf",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/craft_seed1",
+    "artifacts/concepts/coco10/craft_seed2",
+    "artifacts/concepts/coco10/craft_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "CRAFT",
+   "decomposition": "sae2",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/craft_seed1",
+    "artifacts/concepts/coco10/craft_seed2",
+    "artifacts/concepts/coco10/craft_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "CRAFT",
+   "decomposition": "simple",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/craft_seed1",
+    "artifacts/concepts/coco10/craft_seed2",
+    "artifacts/concepts/coco10/craft_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "MCD",
+   "decomposition": "snmf",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/mcd_seed1",
+    "artifacts/concepts/coco10/mcd_seed2",
+    "artifacts/concepts/coco10/mcd_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "MCD",
+   "decomposition": "sae2",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/mcd_seed1",
+    "artifacts/concepts/coco10/mcd_seed2",
+    "artifacts/concepts/coco10/mcd_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "MCD",
+   "decomposition": "simple",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/mcd_seed1",
+    "artifacts/concepts/coco10/mcd_seed2",
+    "artifacts/concepts/coco10/mcd_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "CoX-LMM",
+   "decomposition": "snmf",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/coxlmm_seed1",
+    "artifacts/concepts/coco10/coxlmm_seed2",
+    "artifacts/concepts/coco10/coxlmm_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "CoX-LMM",
+   "decomposition": "sae2",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/coxlmm_seed1",
+    "artifacts/concepts/coco10/coxlmm_seed2",
+    "artifacts/concepts/coco10/coxlmm_seed3"
+   ]
+  },
+  {
+   "dataset": "COCO-10",
+   "method": "CoX-LMM",
+   "decomposition": "simple",
+   "all_components": true,
+   "runs": [
+    "artifacts/concepts/coco10/coxlmm_seed1",
+    "artifacts/concepts/coco10/coxlmm_seed2",
+    "artifacts/concepts/coco10/coxlmm_seed3"
+   ]
+  }
+ ]
+}

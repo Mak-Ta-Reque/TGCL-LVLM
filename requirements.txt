@@ -1,0 +1,42 @@
+# Python 3.10. Supported version ranges; requirements-lock.txt pins the exact
+# versions of the paper runs. Derived from the imports of the tgcl package and
+# the scripts.
+
+# --- Core model stack ---
+# Upper bounds = the versions the rebuttal results were produced with
+# (torch 2.8.0, transformers 4.55.4); newer releases are untested here.
+torch>=2.4,<2.9
+torchvision>=0.19,<0.24
+transformers>=4.53,<4.56   # Gemma-3n (google/gemma-3n-E4B-it) needs >= 4.53
+timm                       # Gemma-3n's vision tower (loaded by transformers internally)
+accelerate>=0.20.0         # device_map / multi-GPU / CPU offload
+huggingface_hub
+python-dotenv              # .env loading (pipeline, raw-curve generator)
+
+# --- Numerics / data ---
+numpy>=1.24,<2
+scipy>=1.10.0
+scikit-learn>=1.0.0
+Pillow>=11.3.0
+opencv-python>=4.5.0       # inpainting (Navier-Stokes / Telea)
+pycocotools>=2.0           # mask RLE, COCO masks
+pyarrow                    # ImageNet-1k parquet shards (preprocessing/build_imagenet1k_dataset.py)
+tqdm
+matplotlib
+requests
+packaging
+
+# --- Text ---
+nltk                       # word corpus is downloaded on first use (NLTK_DATA)
+inflect                    # singular/plural concept names
+bert-score
+
+# --- Vision ---
+clip @ git+https://github.com/openai/CLIP.git
+lang-sam @ git+https://github.com/luca-medeiros/lang-segment-anything.git   # CROP_MODE=langsam (SAM2)
+qwen-vl-utils              # Qwen-VL models only
+
+# --- Optional (not needed for the paper runs) ---
+# pydicom                  # CheXagent model
+# open_clip_torch          # src/evaluate.py alternative backend
+# language-evaluation @ git+https://github.com/bckim92/language-evaluation.git   # captioning metrics (needs Java)

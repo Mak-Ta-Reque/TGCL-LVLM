@@ -1,0 +1,10 @@
+person
+chair
+car
+dining table
+cup
+bottle
+bowl
+handbag
+truck
+bench

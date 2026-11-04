@@ -1,0 +1,65 @@
+._*
+!__main__.py
+
+.DS_Store
+
+__pycache__/
+
+results/
+.ipynb_checkpoints*
+
+
+annotations.json/
+karpathy/
+logs.log
+
+
+# Ignore all .pth files
+*.npy
+*.pth
+
+*.egg-info/
+.vscode
+.pth
+output
+outputs/
+token.txt
+.png
+crops
+.notebooks
+*_omba.sh
+token.txt
+
+# Environment and config files (keep .env.example)
+.env
+config.env
+
+# Miniconda installer and related
+Miniconda3*
+miniconda3*
+./Miniconda3*
+data/train
+dtd
+/models/
+yolo11x-seg.pt
+/api/temp_images
+data/tank
+data/coco_cc0_plus
+
+# Large datasets built/downloaded locally -- regenerable via preprocessing/
+# scripts, not meant to be versioned (see CLAUDE.md: everything under this
+# repo already lives on the NVME mount, but git itself shouldn't carry
+# multi-GB dataset trees)
+data/coco10/
+data/coco10_prelarge_backup_*/
+data/imagenet10/
+
+# Scratch space used for ad-hoc artifact-publishing builds
+.scratch/
+
+# Accidentally-committed git-lfs client binary/docs (a tool, not project content)
+git-lfs-3.5.1/
+.mypy_cache/
+
+# extracted concepts downloaded from Hugging Face
+artifacts/

@@ -1,0 +1,7 @@
+# Qwen2.5-VL runs (configs/paper/qwen2_5_vl_7b.env), on top of requirements.txt.
+# transformers <= 4.55 breaks batched Qwen2.5-VL generation (left-padded rows stop after one
+# token); the Gemma-3n runs of the paper used 4.55.4, so keep a separate environment:
+#   python -m venv --system-site-packages venvs/xlvlms-qwen   (from the xlvlms env)
+#   venvs/xlvlms-qwen/bin/pip install -r requirements-qwen.txt
+transformers==4.57.1
+tokenizers==0.22.1
