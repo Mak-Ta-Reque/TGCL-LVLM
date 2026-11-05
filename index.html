@@ -84,7 +84,7 @@
   .teaser { margin-top: 40px; }
 
   /* Stats */
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px; }
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 28px; }
   .stat { border: 1px solid var(--border); border-radius: 10px; padding: 16px; background: var(--bg); }
   .stat b { display: block; font-size: 1.7rem; color: var(--accent); letter-spacing: -0.02em; }
   .stat span { color: var(--muted); font-size: .88rem; }
@@ -166,12 +166,13 @@
     <h2>Abstract</h2>
     <p>Large vision–language models (LVLMs) are inherently opaque, making it difficult to determine whether their outputs are grounded in visual evidence or driven by language-model priors. Existing concept-based interpretability methods are limited to classification settings, rely on proxy models, or require predefined tokens, and thus do not extend to LVLMs.</p>
     <p>We propose <strong>Text-Guided Concept Learning (TGCL)</strong>, a weakly supervised framework for extracting multimodal concept vectors in LVLMs without token supervision. TGCL builds concept-to-image mappings from data and extracts patch-level activations via concept-guided probing. It then formulates concept learning as a contrastive disentanglement problem, isolating concept-specific patches from background patches to produce sparse, stable, and semantically aligned concept vectors.</p>
-    <p>Across four datasets (ImageNet, MSCOCO, CIFAR-100, DTD) and three recent LVLMs, TGCL outperforms recent interpretability methods.</p>
+    <p>We conduct experiments on four datasets (ImageNet, MSCOCO, CIFAR-100, DTD) with three recent LVLMs. Across ImageNet and MSCOCO, TGCL consistently outperforms state-of-the-art baselines, with gains of up to:</p>
     <div class="stats">
-      <div class="stat"><b>+4%</b><span>higher sparsity</span></div>
-      <div class="stat"><b>−11%</b><span>instability</span></div>
-      <div class="stat"><b>−17%</b><span>concept overlap</span></div>
-      <div class="stat"><b>+20%</b><span>attribution faithfulness</span></div>
+      <div class="stat"><b>+20</b><span>pts concept sparsity</span></div>
+      <div class="stat"><b>+8</b><span>pts stability</span></div>
+      <div class="stat"><b>−30</b><span>pts concept overlap</span></div>
+      <div class="stat"><b>+20</b><span>pts attribution alignment</span></div>
+      <div class="stat"><b>+4</b><span>pts faithfulness</span></div>
     </div>
   </div>
 </section>
@@ -203,6 +204,32 @@
 <section class="alt" id="results">
   <div class="wrap">
     <h2>Results</h2>
+
+    <h3>Concept vector quality</h3>
+    <p>Gemma-3n-E4B on ImageNet and MSCOCO. Higher sparsity, lower instability and overlap are better.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th rowspan="2">Method</th><th rowspan="2">Decomp.</th><th colspan="3">ImageNet</th><th colspan="3">MSCOCO</th></tr>
+          <tr><th>Sparsity ↑</th><th>Instability ↓</th><th>Overlap ↓</th><th>Sparsity ↑</th><th>Instability ↓</th><th>Overlap ↓</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group-start"><td>CRAFT</td><td>SNMF</td><td>0.42</td><td>0.02</td><td>0.69</td><td>0.42</td><td class="best">0.00</td><td>0.81</td></tr>
+          <tr><td></td><td>SAE</td><td>0.39</td><td>0.55</td><td>0.02</td><td>0.37</td><td>0.81</td><td>0.04</td></tr>
+          <tr><td></td><td>SIMPLE</td><td>0.42</td><td class="best">0.00</td><td>0.52</td><td>0.42</td><td>0.33</td><td>0.59</td></tr>
+          <tr class="group-start"><td>MCD</td><td>SNMF</td><td>0.42</td><td>0.02</td><td>0.70</td><td>0.42</td><td class="best">0.00</td><td>0.78</td></tr>
+          <tr><td></td><td>SAE</td><td>0.39</td><td>0.67</td><td>0.02</td><td>0.37</td><td>0.78</td><td>0.05</td></tr>
+          <tr><td></td><td>SIMPLE</td><td>0.42</td><td class="best">0.00</td><td>0.67</td><td>0.43</td><td>0.23</td><td>0.45</td></tr>
+          <tr class="group-start"><td>CoX-LMM</td><td>SNMF</td><td>0.43</td><td>0.06</td><td>0.27</td><td>0.43</td><td class="best">0.00</td><td>0.32</td></tr>
+          <tr><td></td><td>SAE</td><td>0.42</td><td>0.80</td><td>0.02</td><td>0.38</td><td>0.86</td><td>0.03</td></tr>
+          <tr><td></td><td>SIMPLE</td><td>0.44</td><td class="best">0.00</td><td>0.34</td><td>0.43</td><td>0.09</td><td>0.36</td></tr>
+          <tr class="group-start ours"><td><strong>TGCL (ours)</strong></td><td>SNMF</td><td class="best">0.61</td><td class="best">0.00</td><td class="best">0.01</td><td class="best">0.63</td><td>0.01</td><td class="best">0.02</td></tr>
+          <tr class="ours"><td></td><td>SAE</td><td>0.36</td><td>0.96</td><td>0.78</td><td>0.42</td><td>1.00</td><td>0.04</td></tr>
+          <tr class="ours"><td></td><td>SIMPLE</td><td>0.45</td><td class="best">0.00</td><td>0.53</td><td>0.44</td><td>0.01</td><td>0.68</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Best values in bold, as in the paper. TGCL with SNMF gives the highest sparsity and the lowest instability and overlap.</p>
 
     <h3>Attribution quality</h3>
     <p>Gemma-3n-E4B. In the <em>combined</em> setting the model labels each cell of a 2×2 grid of unrelated images, and attribution is scored against those predictions.</p>
@@ -237,6 +264,23 @@
       </div>
       <figcaption>Concept deletion (left of each pair) and insertion (right) on MSCOCO with Gemma-3n-E4B. CoX-LMM's curves are flat with weak separation across ranks; TGCL keeps a clear order (Top-1 &gt; Top-2 &gt; Top-3), with sharper drops under deletion and stronger recovery under insertion.</figcaption>
     </figure>
+
+    <div class="table-wrap" style="margin-top:22px">
+      <table>
+        <thead>
+          <tr><th rowspan="2">Method</th><th rowspan="2"></th><th colspan="3">Ranked order</th><th colspan="3">Random order</th><th rowspan="2">Rank spread ↑</th></tr>
+          <tr><th>Ins ↑</th><th>Del ↓</th><th>Gap ↑</th><th>Ins</th><th>Del</th><th>Gap</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group-start"><td>CRAFT</td><td></td><td>0.781</td><td>0.217</td><td>0.564</td><td>0.510</td><td>0.491</td><td>0.019</td><td>0.016</td></tr>
+          <tr><td>MCD</td><td></td><td>0.793</td><td>0.185</td><td>0.608</td><td>0.512</td><td>0.489</td><td>0.023</td><td>0.016</td></tr>
+          <tr><td>CoX-LMM</td><td></td><td>0.771</td><td>0.194</td><td>0.577</td><td>0.512</td><td>0.488</td><td>0.024</td><td>0.016</td></tr>
+          <tr class="group-start ours"><td><strong>TGCL (ours)</strong></td><td>random crops</td><td>0.815</td><td>0.187</td><td>0.628</td><td>0.517</td><td>0.489</td><td>0.028</td><td>0.086</td></tr>
+          <tr class="ours"><td><strong>TGCL (ours)</strong></td><td>SAM crops</td><td class="best">0.826</td><td class="best">0.176</td><td class="best">0.650</td><td>0.516</td><td>0.479</td><td>0.037</td><td class="best">0.108</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Concept insertion/deletion AUC on MSCOCO-10 with Gemma-3n-E4B, mean over 500 images; Gap = Ins − Del. TGCL (SAM) is better than every baseline with p &lt; 0.001 (Welch's t-test, Holm-corrected). Standard deviations and effect sizes are in the paper.</p>
 
     <h3>Monosemantic concepts</h3>
     <figure>
